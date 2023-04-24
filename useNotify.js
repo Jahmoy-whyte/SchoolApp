@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Text, View, Button, Platform } from "react-native";
+import { Text, View, Button, Platform, Linking } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
@@ -12,7 +12,7 @@ Notifications.setNotificationHandler({
 });
 
 const useNotify = () => {
-  const [expoPushToken, setExpoPushToken] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState("");
   //  const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
@@ -38,9 +38,12 @@ const useNotify = () => {
     };
   }, []);
 
-  async function registerForPushNotificationsAsync() {
+  const opensettings = () => {
+    Linking.openSettings();
+  };
+  const registerForPushNotificationsAsync = async () => {
     let token;
-
+    // alert("w");
     if (Platform.OS === "android") {
       await Notifications.setNotificationChannelAsync("default", {
         name: "default",
@@ -59,7 +62,8 @@ const useNotify = () => {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        //  alert("Failed to get push token for push notification!");
+        //   alert("Failed to get push token for push notification!");
+        setExpoPushToken(false);
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -69,10 +73,11 @@ const useNotify = () => {
     }
     setExpoPushToken(token);
     // return token;
-  }
+  };
 
-  return [expoPushToken, registerForPushNotificationsAsync];
+  return [expoPushToken, opensettings, registerForPushNotificationsAsync];
 };
+
 const sendfnc = async () => {
   tokenArray = [
     {

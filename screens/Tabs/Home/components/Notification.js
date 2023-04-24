@@ -6,9 +6,32 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  AppState,
 } from "react-native";
+import React, { useRef, useEffect } from "react";
 
-const Notification = ({ Register }) => {
+const Notification = ({ Register, opensettings }) => {
+  const appState = useRef(AppState.currentState);
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        console.log("App has come to the foreground!");
+        Register();
+      }
+
+      appState.current = nextAppState;
+
+      console.log("AppState", appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <Image
@@ -21,7 +44,7 @@ const Notification = ({ Register }) => {
         Please Enable Notification To Get UpDated On You Childs Grades, News,
         PTA And Events
       </Text>
-      <TouchableOpacity style={styles.btn} onPress={Register}>
+      <TouchableOpacity style={styles.btn} onPress={opensettings}>
         <Text style={styles.btntxt}>Enable</Text>
       </TouchableOpacity>
     </View>

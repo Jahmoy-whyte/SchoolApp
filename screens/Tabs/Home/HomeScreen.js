@@ -23,8 +23,9 @@ import useNotify from "../../../useNotify";
 import Notification from "./components/Notification";
 import * as Clipboard from "expo-clipboard";
 const HomeScreen = () => {
-  const [response, register] = useNotify();
+  const [response, opensettings, register] = useNotify();
   const [data, nav, name] = useHomeJS();
+  // console.log(response);
   const Heading = () => {
     return (
       <View style={styles.headercontainer}>
@@ -52,7 +53,7 @@ const HomeScreen = () => {
         <Heading />
 
         {response === false ? (
-          <Notification Register={register} />
+          <Notification Register={register} opensettings={opensettings} />
         ) : data.loading === true ? (
           <LoadingScreen />
         ) : (
