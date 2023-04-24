@@ -19,14 +19,24 @@ import Articles from "./components/Articles";
 //import Button from "../../../components/button/Button";
 //import { getAuth, signOut } from "firebase/auth";
 //import { FireAuth } from "../../../FirebaseConfig";
-
+import useNotify from "../../../useNotify";
+import Notification from "./components/Notification";
+import * as Clipboard from "expo-clipboard";
 const HomeScreen = () => {
-  const [data, nav] = useHomeJS();
+  const [response, register] = useNotify();
+  const [data, nav, name] = useHomeJS();
   const Heading = () => {
     return (
       <View style={styles.headercontainer}>
         <View style={styles.nameandwellcome}>
-          <Text style={styles.nametxt}>Noha!</Text>
+          <Text
+            onPress={async () => {
+              await Clipboard.setStringAsync(response);
+            }}
+            style={styles.nametxt}
+          >
+            Hi {name}!
+          </Text>
           <Text style={styles.wellcometxt}>Wellcome Back</Text>
         </View>
         <Text style={styles.datetxt}>Tues 14 2023</Text>
@@ -41,7 +51,9 @@ const HomeScreen = () => {
       <SafeAreaView style={Globalstyles.container}>
         <Heading />
 
-        {data.loading === true ? (
+        {response === false ? (
+          <Notification Register={register} />
+        ) : data.loading === true ? (
           <LoadingScreen />
         ) : (
           <ScrollView style={styles.scrollcontainer}>

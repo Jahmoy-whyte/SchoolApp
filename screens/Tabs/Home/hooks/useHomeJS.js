@@ -52,7 +52,7 @@ const useHomeJS = () => {
     }
   };
 
-  return [data, nav];
+  return [data, nav, userinfo?.parentname];
 };
 
 export default useHomeJS;
