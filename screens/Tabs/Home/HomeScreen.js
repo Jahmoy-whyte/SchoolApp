@@ -21,10 +21,13 @@ import Articles from "./components/Articles";
 //import { FireAuth } from "../../../FirebaseConfig";
 import useNotify from "../../../useNotify";
 import Notification from "./components/Notification";
+import useVerifyToken from "./hooks/useVerifyToken";
 
 const HomeScreen = () => {
   const [tokenresponse, opensettings, register] = useNotify();
-  const [data, nav, name, Copytoken] = useHomeJS(tokenresponse);
+  const [data, nav, name] = useHomeJS();
+  const [Copytoken] = useVerifyToken(tokenresponse);
+
   // console.log(response);
   const Heading = () => {
     return (
