@@ -21,21 +21,16 @@ import Articles from "./components/Articles";
 //import { FireAuth } from "../../../FirebaseConfig";
 import useNotify from "../../../useNotify";
 import Notification from "./components/Notification";
-import * as Clipboard from "expo-clipboard";
+
 const HomeScreen = () => {
-  const [response, opensettings, register] = useNotify();
-  const [data, nav, name] = useHomeJS();
+  const [tokenresponse, opensettings, register] = useNotify();
+  const [data, nav, name, Copytoken] = useHomeJS(tokenresponse);
   // console.log(response);
   const Heading = () => {
     return (
       <View style={styles.headercontainer}>
         <View style={styles.nameandwellcome}>
-          <Text
-            onPress={async () => {
-              await Clipboard.setStringAsync(response);
-            }}
-            style={styles.nametxt}
-          >
+          <Text onPress={Copytoken} style={styles.nametxt}>
             Hi {name}!
           </Text>
           <Text style={styles.wellcometxt}>Wellcome Back</Text>
@@ -52,7 +47,7 @@ const HomeScreen = () => {
       <SafeAreaView style={Globalstyles.container}>
         <Heading />
 
-        {response === false ? (
+        {tokenresponse === false ? (
           <Notification Register={register} opensettings={opensettings} />
         ) : data.loading === true ? (
           <LoadingScreen />
@@ -66,10 +61,7 @@ const HomeScreen = () => {
                 <Image
                   resizeMode="contain"
                   source={require("../../../assets/images/news2.png")}
-                  style={{
-                    width: 100,
-                    height: 100,
-                  }}
+                  style={styles.newsimg}
                 />
 
                 <View style={styles.newstitleandtext}>
@@ -161,6 +153,10 @@ const styles = StyleSheet.create({
     gap: 10,
     flex: 1,
   },
+  newsimg: {
+    width: 70,
+    height: 70,
+  },
   newstitleandtext: {
     flex: 1,
   },
@@ -177,7 +173,9 @@ const styles = StyleSheet.create({
 
   // ============================== mainheadings ===========
   mainheadings: {
-    marginVertical: 15,
+    //  marginVertical: 15,
+    marginTop: 15,
+    marginBottom: 5,
     fontFamily: "interbold",
     fontSize: 18,
   },

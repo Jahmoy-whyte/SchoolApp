@@ -30,7 +30,7 @@ const Notification = ({ Register, opensettings }) => {
     return () => {
       subscription.remove();
     };
-  }, []);
+  }, [appState]);
 
   return (
     <View style={styles.container}>

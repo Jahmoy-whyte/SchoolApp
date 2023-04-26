@@ -3,13 +3,23 @@ import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FireAuth } from "../../../../FirebaseConfig";
 import Alertshow from "../../../../helper/Alerts/Alertshow";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { db } from "../../../../FirebaseConfig";
 import {
   loginstate_context,
   userinfo_context,
 } from "../../../../context/GBContext";
-const useHomeJS = () => {
+import * as Clipboard from "expo-clipboard";
+
+const useHomeJS = (tokenresponse) => {
   const nav = useNavigation();
   const [userinfo, setuserinfo] = useContext(userinfo_context);
   const [data, setdata] = useState({
@@ -19,10 +29,11 @@ const useHomeJS = () => {
 
   // create account function with firebase
   useEffect(() => {
-    FN_GetAccount();
-  }, []);
+    if (tokenresponse === false || tokenresponse === "") return;
+    FN_GetAccount(tokenresponse);
+  }, [tokenresponse]);
 
-  const FN_GetAccount = async () => {
+  const FN_GetAccount = async (tokenresponse) => {
     try {
       const q = query(
         collection(db, "Student"),
@@ -41,10 +52,14 @@ const useHomeJS = () => {
         //console.log(doc.id, " => ", doc.data());
         arr.push({ ...doc.data(), docid: doc.id });
       });
+
+      const status = await AddNotifytoken(tokenresponse, arr);
+
       setuserinfo({
         parentname: arr[0].Parentname,
         parentemail: arr[0].Parentemail,
       });
+
       setdata((prev) => ({ ...prev, loading: false, profileinfo: arr }));
     } catch (error) {
       setdata((prev) => ({ ...prev, loading: false }));
@@ -52,7 +67,36 @@ const useHomeJS = () => {
     }
   };
 
-  return [data, nav, userinfo?.parentname];
+  const AddNotifytoken = async (tokenresponse, arr) => {
+    let status = false;
+    try {
+      for (let i = 0; i < arr.length; i++) {
+        let response = arr[i].NotificationToken.find(
+          (token) => token === tokenresponse
+        );
+        // console.log("token is found ============" + response);
+
+        if (response === undefined) {
+          const accountdoc = doc(db, "Student", arr[i].docid);
+          await updateDoc(accountdoc, {
+            NotificationToken: arrayUnion(tokenresponse),
+          });
+        }
+      }
+      status = true;
+    } catch (error) {
+      Alertshow(error.code);
+    }
+
+    return status;
+  };
+
+  const Copytoken = async () => {
+    await Clipboard.setStringAsync(tokenresponse);
+    alert(tokenresponse);
+  };
+
+  return [data, nav, userinfo?.parentname, Copytoken];
 };
 
 export default useHomeJS;
