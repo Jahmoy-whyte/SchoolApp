@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Text, View, Button, Platform, Linking } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { userinfo_context } from "./context/GBContext";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -16,13 +17,14 @@ const useNotify = () => {
   //  const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-
+  //  const [notifyinfo, setnotifyinfo] = useContext(userinfo_context);
   useEffect(() => {
     registerForPushNotificationsAsync();
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         // setNotification(notification);
+        //console.log(notification.request.trigger.remoteMessage.data.body);
       });
 
     responseListener.current =

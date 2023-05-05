@@ -9,8 +9,10 @@ import {
   loginstate_context,
   userinfo_context,
 } from "../../../../context/GBContext";
+import { Dimensions } from "react-native";
 
 const useHomeJS = () => {
+  const WIDTH = Dimensions.get("screen").width / 2 - 15;
   const nav = useNavigation();
   const [userinfo, setuserinfo] = useContext(userinfo_context);
   const [data, setdata] = useState({
@@ -43,11 +45,12 @@ const useHomeJS = () => {
         arr.push({ ...doc.data(), docid: doc.id });
       });
 
-      setuserinfo({
+      setuserinfo((prev) => ({
+        ...prev,
         allinfo: arr,
         parentname: arr[0].Parentname,
         parentemail: arr[0].Parentemail,
-      });
+      }));
 
       setdata((prev) => ({ ...prev, loading: false, profileinfo: arr }));
     } catch (error) {
@@ -56,7 +59,7 @@ const useHomeJS = () => {
     }
   };
 
-  return [data, nav, userinfo?.parentname];
+  return [data, nav, userinfo, WIDTH];
 };
 
 export default useHomeJS;

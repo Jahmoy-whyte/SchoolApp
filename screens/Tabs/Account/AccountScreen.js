@@ -16,8 +16,6 @@ const AccountScreen = () => {
   const [FN_Logout, email, userinfo] = useAccountJS();
   return (
     <>
-      <View style={styles.backdrop}></View>
-
       <SafeAreaView style={Globalstyles.container}>
         <View style={styles.headingview}>
           <Text style={styles.heading}>Account</Text>

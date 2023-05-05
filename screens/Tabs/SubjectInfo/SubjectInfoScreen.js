@@ -16,10 +16,11 @@ import { Getmonths } from "./helper/Getmonthsandweeks";
 import useSubjectdata from "./Hooks/useSubjectdata";
 import LoadingScreen from "../../Loading/LoadingScreen";
 import Grades from "./Components/Grades";
+import CircularProgress from "react-native-circular-progress-indicator";
 
 const SubjectInfoScreen = ({ navigation, route }) => {
   const { studentid, Subject, docid, TeacherDocid } = route.params;
-  const [data] = useSubjectdata({ ...route.params });
+  const [data, calulateavg] = useSubjectdata({ ...route.params });
   return (
     <>
       <View style={styles.backdrop}></View>
@@ -33,6 +34,16 @@ const SubjectInfoScreen = ({ navigation, route }) => {
         ) : (
           <ScrollView style={Globalstyles.scrollcontainer}>
             <Text style={styles.headingtxt}>{Subject}</Text>
+            <Text style={styles.subheadingstxt}>Average:</Text>
+            <View style={styles.averagehold}>
+              <CircularProgress
+                value={calulateavg}
+                valueSuffix={"%"}
+                progressValueFontSize={18}
+                activeStrokeColor="#198508"
+                inActiveStrokeColor="#B3B3B3"
+              />
+            </View>
 
             <Text style={styles.subheadingstxt}>Grades:</Text>
 
@@ -45,21 +56,6 @@ const SubjectInfoScreen = ({ navigation, route }) => {
                 return <Grades data={data} key={data.docid} />;
               })
             )}
-            <Text style={styles.subheadingstxt}>Average:</Text>
-
-            <View style={styles.avgstyle}>
-              <Text style={styles.txtlarge4}>Average:</Text>
-
-              <Text style={styles.txtlarge4}>90%</Text>
-            </View>
-
-            <Text style={styles.subheadingstxt}>Attendance:</Text>
-            <View style={styles.monthstyle}>
-              <Text style={Globalstyles.txtsmall2}>{Getmonths()}</Text>
-            </View>
-
-            <Calendar />
-            <View style={styles.formargin}></View>
           </ScrollView>
         )}
       </SafeAreaView>
@@ -67,11 +63,14 @@ const SubjectInfoScreen = ({ navigation, route }) => {
   );
 };
 const styles = StyleSheet.create({
+  averagehold: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   headingtxt: {
     fontFamily: "interbold",
     fontSize: 20,
     textAlign: "center",
-    marginBottom: 15,
   },
   backdrop: {
     backgroundColor: "#198508",
@@ -95,8 +94,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   subheadingstxt: {
+    marginTop: 15,
     fontSize: 16,
-    marginBottom: 15,
+    marginBottom: 5,
     fontFamily: "interbold",
   },
   txtlarge4: {

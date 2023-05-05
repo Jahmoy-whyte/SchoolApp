@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Globalstyles } from "../../../../assets/styles/Globalstyles";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-const Articles = () => {
+const Articles = ({ WIDTH }) => {
   const nav = useNavigation();
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, { width: WIDTH }]}
       onPress={() => nav.navigate("News")}
     >
       <View style={styles.textandicon}>

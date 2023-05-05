@@ -20,6 +20,8 @@ import { FireAuth } from "./FirebaseConfig";
 import ProfileInfoScreen from "./screens/Tabs/ProfileInfo/ProfileInfoScreen";
 import SubjectInfoScreen from "./screens/Tabs/SubjectInfo/SubjectInfoScreen";
 import NewsScreen from "./screens/Tabs/News/NewsScreen";
+import AttendanceScreen from "./screens/Tabs/Attendance/AttendanceSrceen";
+import NotificationScreen from "./screens/Tabs/Notification/NotificationScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -64,6 +66,11 @@ export default function App() {
                   <Stack.Screen name="profile" component={ProfileInfoScreen} />
                   <Stack.Screen name="subject" component={SubjectInfoScreen} />
                   <Stack.Screen name="News" component={NewsScreen} />
+                  <Stack.Screen name="attend" component={AttendanceScreen} />
+                  <Stack.Screen
+                    name="notifications"
+                    component={NotificationScreen}
+                  />
                 </Stack.Group>
               ) : login === "loggedout" ? (
                 <Stack.Group>

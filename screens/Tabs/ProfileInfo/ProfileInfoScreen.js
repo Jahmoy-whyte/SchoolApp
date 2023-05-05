@@ -13,14 +13,16 @@ import LoadingScreen from "../../Loading/LoadingScreen";
 import useProfileInfoJS from "./hooks/useProfileInfoJS";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Subjectview from "./components/Subjectview";
-
+import { StatusBar as Expostatusbar } from "expo-status-bar";
+import { useRoute } from "@react-navigation/native";
 const ProfileInfoScreen = ({ navigation, route }) => {
+  const routehook = useRoute();
   const { grade, name, image, studentid } = route.params;
   const [data, nav] = useProfileInfoJS({ ...route.params });
   return (
     <>
       <View style={styles.backdrop}></View>
-
+      <Expostatusbar style={routehook.name !== "Home" ? "light" : "dark"} />
       <SafeAreaView style={Globalstyles.container}>
         <View style={styles.backbuttonview}>
           <Backbutton color="white" />
@@ -30,11 +32,9 @@ const ProfileInfoScreen = ({ navigation, route }) => {
         ) : (
           <ScrollView style={Globalstyles.scrollcontainer}>
             <View style={styles.imgcontainer}>
-              <Text style={Globalstyles.txtlarge1}>Profile</Text>
-
               {image === "" ? (
                 <View style={styles.userview}>
-                  <AntDesign name="user" size={40} color="white" />
+                  <AntDesign name="user" size={30} color="white" />
                 </View>
               ) : (
                 <Image
@@ -44,8 +44,10 @@ const ProfileInfoScreen = ({ navigation, route }) => {
                 />
               )}
 
-              <Text style={Globalstyles.txtlarge3}>{name}</Text>
-              <Text style={Globalstyles.txtsmallgray1}>Grade: {grade}</Text>
+              <View style={styles}>
+                <Text style={Globalstyles.txtlarge3}>{name}</Text>
+                <Text style={Globalstyles.txtsmallgray1}>Grade: {grade}</Text>
+              </View>
             </View>
 
             <View style={styles.subjectcontainer}>
@@ -74,8 +76,8 @@ const styles = StyleSheet.create({
   },
 
   userview: {
-    width: 110,
-    height: 110,
+    width: 60,
+    height: 60,
     borderRadius: 100,
     //borderWidth: 1,
     borderColor: "#B3B3B3",
@@ -89,7 +91,8 @@ const styles = StyleSheet.create({
   imgcontainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    flexDirection: "row",
+    gap: 10,
   },
   subjectcontainer: {
     marginVertical: 15,

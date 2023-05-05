@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../../FirebaseConfig";
@@ -35,6 +35,19 @@ const useSubjectdata = ({ studentid, Subject, docid, TeacherDocid }) => {
     }
   };
 
-  return [data];
+  const calulateavg = useMemo(() => {
+    let addedgrades = 0;
+    let garde = "";
+    data.data.map((info) => {
+      garde = info.Grade.replace("%", "");
+      addedgrades += parseFloat(garde) / 100;
+    });
+    addedgrades = addedgrades / parseInt(data.data.length);
+    addedgrades = addedgrades * 100;
+
+    return data.data.length > 0 ? addedgrades : 0;
+  }, [data.data]);
+
+  return [data, calulateavg];
 };
 export default useSubjectdata;

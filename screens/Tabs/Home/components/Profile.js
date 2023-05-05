@@ -12,7 +12,7 @@ import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 import { memo } from "react";
 const Profile = ({ data, nav }) => {
-  console.log(data);
+  //  console.log(data);
   return (
     <TouchableOpacity
       style={styles.maincontainer}
