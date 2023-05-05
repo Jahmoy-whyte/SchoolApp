@@ -39,11 +39,7 @@ const HomeScreen = () => {
           <Text style={styles.wellcometxt}>Wellcome Back </Text>
         </View>
         <TouchableOpacity onPress={() => nav.navigate("notifications")}>
-          <Feather
-            name="bell"
-            size={20}
-            color={userinfo?.notificationinfo?.new === "true" ? "red" : "black"}
-          />
+          <Feather name="bell" size={20} color={"black"} />
         </TouchableOpacity>
       </View>
     );

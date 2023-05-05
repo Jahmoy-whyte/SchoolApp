@@ -13,20 +13,11 @@ import { ActivityIndicator } from "react-native";
 import { memo } from "react";
 const Noticards = ({ data, nav, fun }) => {
   //  console.log(data);
+
+  let sentdate = new Date(data.Date.seconds * 1000).toDateString();
+
   return (
-    <TouchableOpacity
-      style={styles.maincontainer}
-      onPress={() => {
-        data.Shouldnav === true
-          ? nav.navigate("subject", {
-              studentid: data.Studentid,
-              Subject: data.Subject,
-              docid: data.Classid,
-              TeacherDocid: data.TeacherDocid,
-            })
-          : null;
-      }}
-    >
+    <TouchableOpacity style={styles.maincontainer}>
       <Image
         style={styles.img}
         source={require("../../../../assets/cu_icon.png")}
@@ -34,13 +25,21 @@ const Noticards = ({ data, nav, fun }) => {
 
       <View style={styles.nameandgrade}>
         <Text style={Globalstyles.txtsmallbold1}>{data?.Title}</Text>
-        <Text style={Globalstyles.txtsmallgray2}>Grade: {data?.Message}</Text>
+        <Text style={Globalstyles.txtsmall2}>{data?.Message}</Text>
+        <Text style={styles.datetxt}>
+          Date:
+          <Text style={Globalstyles.txtsmall2}> {sentdate}</Text>
+        </Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  datetxt: {
+    fontSize: 12,
+    fontFamily: "interbold",
+  },
   maincontainer: {
     borderRadius: 6,
     borderWidth: 0.5,

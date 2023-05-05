@@ -19,10 +19,7 @@
     },
     "android": {
       "googleServicesFile": "./google-services.json",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/cu_icon.png",
-        "backgroundColor": "#198508"
-      },
+     
       "package": "com.johnwata.schoolapp"
     },
     "web": {

@@ -17,10 +17,7 @@ const useNoti = () => {
 
   const getNoti = async () => {
     try {
-      const q = query(
-        collection(db, "Notifications"),
-        where("Targetemail", "==", FireAuth.currentUser.email)
-      );
+      const q = query(collection(db, "Notifications"));
 
       const arr = [];
 
