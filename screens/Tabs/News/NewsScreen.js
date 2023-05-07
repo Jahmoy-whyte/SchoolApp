@@ -2,9 +2,13 @@ import { View, Text, ScrollView, SafeAreaView, StyleSheet } from "react-native";
 import { Globalstyles } from "../../../assets/styles/Globalstyles";
 import Backbutton from "../../../components/Backbutton/Backbutton";
 
+import { StatusBar as Expostatusbar } from "expo-status-bar";
+import { useRoute } from "@react-navigation/native";
 const NewsScreen = () => {
+  const routehook = useRoute();
   return (
     <>
+      <Expostatusbar style={routehook.name !== "Home" ? "light" : "dark"} />
       <View style={styles.backdrop}></View>
 
       <SafeAreaView style={Globalstyles.container}>

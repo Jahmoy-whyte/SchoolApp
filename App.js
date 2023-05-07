@@ -1,7 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { userinfo_context, loginstate_context } from "./context/GBContext";
+import {
+  userinfo_context,
+  loginstate_context,
+  notify_context,
+} from "./context/GBContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useContext, useState } from "react";
 import { useFonts } from "expo-font";
@@ -22,11 +26,12 @@ import SubjectInfoScreen from "./screens/Tabs/SubjectInfo/SubjectInfoScreen";
 import NewsScreen from "./screens/Tabs/News/NewsScreen";
 import AttendanceScreen from "./screens/Tabs/Attendance/AttendanceSrceen";
 import NotificationScreen from "./screens/Tabs/Notification/NotificationScreen";
-
+import Eventcalender from "./screens/Tabs/Eventcalender/Eventcalender";
 export default function App() {
   const Stack = createNativeStackNavigator();
   const [login, setlogin] = useState();
   const [userifno, setuserifno] = useState();
+  const [notify, setnotify] = useState({ showbage: false });
 
   const [fontsLoaded] = useFonts({
     interbold: require("./assets/fonts/Inter-Bold.ttf"),
@@ -47,51 +52,63 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <loginstate_context.Provider value={[login, setlogin]}>
-        <userinfo_context.Provider value={[userifno, setuserifno]}>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-                gestureEnabled: false,
-                //  contentStyle:{
-                // backgroundColor:"#61ADFF",
+      <notify_context.Provider value={[notify, setnotify]}>
+        <loginstate_context.Provider value={[login, setlogin]}>
+          <userinfo_context.Provider value={[userifno, setuserifno]}>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  gestureEnabled: false,
+                  //  contentStyle:{
+                  // backgroundColor:"#61ADFF",
 
-                //  }
-              }}
-            >
-              {login === "loggedin" ? (
-                <Stack.Group>
-                  <Stack.Screen name="tabs" component={MainTabsScreen} />
-                  <Stack.Screen name="profile" component={ProfileInfoScreen} />
-                  <Stack.Screen name="subject" component={SubjectInfoScreen} />
-                  <Stack.Screen name="News" component={NewsScreen} />
-                  <Stack.Screen name="attend" component={AttendanceScreen} />
-                  <Stack.Screen
-                    name="notifications"
-                    component={NotificationScreen}
-                  />
-                </Stack.Group>
-              ) : login === "loggedout" ? (
-                <Stack.Group>
-                  <Stack.Screen name="oboarding" component={OnboardingScreen} />
-                  <Stack.Screen name="signup" component={SignupScreen} />
-                  <Stack.Screen name="verify" component={VerifyemailScreen} />
-                  <Stack.Screen name="login" component={LoginScreen} />
-                  <Stack.Screen
-                    name="resetpassword"
-                    component={Resetpasswordscreen}
-                  />
-                </Stack.Group>
-              ) : (
-                <Stack.Group>
-                  <Stack.Screen name="loading" component={LoadingScreen} />
-                </Stack.Group>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-        </userinfo_context.Provider>
-      </loginstate_context.Provider>
+                  //  }
+                }}
+              >
+                {login === "loggedin" ? (
+                  <Stack.Group>
+                    <Stack.Screen name="tabs" component={MainTabsScreen} />
+                    <Stack.Screen
+                      name="profile"
+                      component={ProfileInfoScreen}
+                    />
+                    <Stack.Screen
+                      name="subject"
+                      component={SubjectInfoScreen}
+                    />
+                    <Stack.Screen name="News" component={NewsScreen} />
+                    <Stack.Screen name="attend" component={AttendanceScreen} />
+                    <Stack.Screen
+                      name="notifications"
+                      component={NotificationScreen}
+                    />
+                    <Stack.Screen name="calender" component={Eventcalender} />
+                  </Stack.Group>
+                ) : login === "loggedout" ? (
+                  <Stack.Group>
+                    <Stack.Screen
+                      name="oboarding"
+                      component={OnboardingScreen}
+                    />
+                    <Stack.Screen name="signup" component={SignupScreen} />
+                    <Stack.Screen name="verify" component={VerifyemailScreen} />
+                    <Stack.Screen name="login" component={LoginScreen} />
+                    <Stack.Screen
+                      name="resetpassword"
+                      component={Resetpasswordscreen}
+                    />
+                  </Stack.Group>
+                ) : (
+                  <Stack.Group>
+                    <Stack.Screen name="loading" component={LoadingScreen} />
+                  </Stack.Group>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+          </userinfo_context.Provider>
+        </loginstate_context.Provider>
+      </notify_context.Provider>
       <Toast config={toastConfig} />
     </>
   );

@@ -10,7 +10,13 @@ import {
 import { StatusBar as Expostatusbar } from "expo-status-bar";
 
 import { Globalstyles } from "../../../assets/styles/Globalstyles";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import {
+  Ionicons,
+  Feather,
+  FontAwesome,
+  MaterialIcons,
+  AntDesign,
+} from "@expo/vector-icons";
 
 import useHomeJS from "./hooks/useHomeJS";
 import Profile from "./components/Profile";
@@ -26,7 +32,7 @@ import { useRoute } from "@react-navigation/native";
 const HomeScreen = () => {
   const routehook = useRoute();
   const [tokenresponse, opensettings, register] = useNotify();
-  const [data, nav, userinfo, WIDTH] = useHomeJS();
+  const [data, nav, userinfo, WIDTH, notify] = useHomeJS();
   const [Copytoken] = useVerifyToken(tokenresponse);
 
   const Heading = () => {
@@ -36,9 +42,22 @@ const HomeScreen = () => {
           <Text onPress={Copytoken} style={styles.nametxt}>
             Hi {userinfo?.parentname}!
           </Text>
-          <Text style={styles.wellcometxt}>Wellcome Back </Text>
+          <Text style={styles.wellcometxt}>Wellcome Back</Text>
         </View>
         <TouchableOpacity onPress={() => nav.navigate("notifications")}>
+          <View
+            style={{
+              width: 10,
+              height: 10,
+              position: "absolute",
+              backgroundColor: "red",
+              borderRadius: 10,
+              right: 0,
+              top: -1,
+              zIndex: 1,
+              display: notify?.showbage === false ? "none" : null,
+            }}
+          ></View>
           <Feather name="bell" size={20} color={"black"} />
         </TouchableOpacity>
       </View>
@@ -59,12 +78,36 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View style={styles.newscontainer}>
-          <View style={styles.newstitleandtext}>
-            <Text style={styles.newstitle}>News</Text>
-            <Text style={styles.newssubtext}>No New Info Is Available</Text>
-          </View>
-          <Ionicons name="arrow-forward" size={24} color="white" />
+        <View style={styles.test1}>
+          <TouchableOpacity
+            style={styles.newscontainer}
+            onPress={() => nav.navigate("News")}
+          >
+            <View style={styles.newstitleandtext}>
+              <FontAwesome name="newspaper-o" size={20} color="white" />
+              <Text style={styles.newstitle}>News</Text>
+            </View>
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={24}
+              color="white"
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.eventcontainer}
+            onPress={() => nav.navigate("calender")}
+          >
+            <View style={styles.eventtxtandicon}>
+              <AntDesign name="calendar" size={20} color="white" />
+              <Text style={styles.eventtxt}>Events</Text>
+            </View>
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={24}
+              color="white"
+            />
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
@@ -84,6 +127,7 @@ const HomeScreen = () => {
         ) : (
           <ScrollView style={styles.scrollcontainer}>
             <Newssct />
+
             <Text style={styles.mainheadings}>Profile</Text>
 
             <View style={styles.profileinfoview}>
@@ -106,6 +150,37 @@ const HomeScreen = () => {
   );
 };
 const styles = StyleSheet.create({
+  test1: {
+    flexDirection: "row",
+    flex: 1,
+  },
+  // ========================== eventcontainer ===================
+  eventcontainer: {
+    backgroundColor: "rgba(0, 0, 0, 0.21)",
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+
+    borderBottomRightRadius: 6,
+  },
+  eventtxtandicon: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    flex: 1,
+  },
+
+  eventtxt: {
+    fontFamily: "interbold",
+    color: "white",
+    fontSize: 14,
+    flex: 1,
+  },
+
+  // ======================== start =============================
   backdrop: {
     backgroundColor: "#198508",
     height: "100%",
@@ -156,9 +231,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 15,
     borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
   },
   imgcontainter: {
     alignItems: "center",
@@ -169,11 +243,17 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
   },
-  newstitleandtext: { flex: 1 },
+  newstitleandtext: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    flex: 1,
+  },
   newstitle: {
     fontFamily: "interbold",
     fontSize: 14,
     color: "white",
+    flex: 1,
   },
   newssubtext: {
     fontFamily: "interregular",

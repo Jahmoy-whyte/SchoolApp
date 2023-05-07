@@ -26,6 +26,7 @@ const ProfileInfoScreen = ({ navigation, route }) => {
       <SafeAreaView style={Globalstyles.container}>
         <View style={styles.backbuttonview}>
           <Backbutton color="white" />
+          <Text style={styles.title}>Profile</Text>
         </View>
         {data.loading === true ? (
           <LoadingScreen />
@@ -63,6 +64,12 @@ const ProfileInfoScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontFamily: "interbold",
+    fontSize: 20,
+    textAlign: "center",
+    color: "white",
+  },
   backdrop: {
     backgroundColor: "#198508",
     height: "100%",

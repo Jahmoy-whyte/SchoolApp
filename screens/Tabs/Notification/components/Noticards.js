@@ -14,7 +14,7 @@ import { memo } from "react";
 const Noticards = ({ data, nav, fun }) => {
   //  console.log(data);
 
-  let sentdate = new Date(data.Date.seconds * 1000).toDateString();
+  let sentdate = new Date(data?.Date?.seconds * 1000).toDateString();
 
   return (
     <TouchableOpacity style={styles.maincontainer}>

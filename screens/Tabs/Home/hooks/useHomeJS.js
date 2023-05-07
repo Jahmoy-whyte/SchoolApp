@@ -3,18 +3,27 @@ import { useNavigation } from "@react-navigation/native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FireAuth } from "../../../../FirebaseConfig";
 import Alertshow from "../../../../helper/Alerts/Alertshow";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "../../../../FirebaseConfig";
 import {
   loginstate_context,
   userinfo_context,
+  notify_context,
 } from "../../../../context/GBContext";
 import { Dimensions } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const useHomeJS = () => {
   const WIDTH = Dimensions.get("screen").width / 2 - 15;
   const nav = useNavigation();
   const [userinfo, setuserinfo] = useContext(userinfo_context);
+  const [notify, setnotify] = useContext(notify_context);
   const [data, setdata] = useState({
     profileinfo: [],
     loading: true,
@@ -23,6 +32,7 @@ const useHomeJS = () => {
   // create account function with firebase
   useEffect(() => {
     FN_GetAccount();
+    recentnoti();
   }, []);
 
   const FN_GetAccount = async () => {
@@ -59,7 +69,39 @@ const useHomeJS = () => {
     }
   };
 
-  return [data, nav, userinfo, WIDTH];
+  const recentnoti = async () => {
+    try {
+      const docRef = doc(db, "Metadata", "data");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const lastnoti = await AsyncStorage.getItem("@lastnoti");
+        lastnoti != null ? lastnoti : null;
+
+        //console.log(JSON.stringify(""));
+        let recentnoti1 = JSON.stringify(
+          docSnap.data()?.RecentNotificationTime
+        );
+        if (lastnoti !== recentnoti1) {
+          //  alert("not the same");
+          setnotify((prev) => ({
+            ...prev,
+            lastupdatednoti: recentnoti1,
+            showbage: true,
+          }));
+        }
+
+        // console.log("Document data:", docSnap.data());
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return [data, nav, userinfo, WIDTH, notify];
 };
 
 export default useHomeJS;

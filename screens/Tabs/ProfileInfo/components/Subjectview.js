@@ -32,17 +32,8 @@ const Subjectview = ({ data, nav }) => {
     >
       <View style={styles.topinfo}>
         <View style={styles.container}>
-          {data.image === "" ? (
-            <MaterialIcons name="subject" size={24} color="#198508" />
-          ) : (
-            <Image
-              source={{ uri: data.image }}
-              style={{ width: 30, height: 30 }}
-            />
-          )}
-
           <View style={styles}>
-            <Text style={Globalstyles.txtsmallbold1}>{data.Subject}</Text>
+            <Text style={Globalstyles.txtlarge3}>{data.Subject}</Text>
             <View style={styles.daysstyle}>
               {data.Days.map((day, index) => {
                 return (
@@ -71,14 +62,7 @@ const Subjectview = ({ data, nav }) => {
         <View style={styles.iconhold}>
           <Feather name="percent" size={15} color="white" />
         </View>
-        <Text style={styles.smallcardtxt}>Grades</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.smallcardcontainer}>
-        <View style={styles.iconhold}>
-          <Feather name="file-text" size={15} color="white" />
-        </View>
-        <Text style={styles.smallcardtxt}>Attendance</Text>
+        <Text style={styles.smallcardtxt}>Grades & Attendance</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.smallcardcontainer}>
@@ -109,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#198508",
   },
   smallcardtxt: {
-    fontFamily: "interbold",
+    fontFamily: "interregular",
     fontSize: 12,
   },
   //==================

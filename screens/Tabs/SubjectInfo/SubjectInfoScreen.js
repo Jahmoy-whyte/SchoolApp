@@ -27,13 +27,13 @@ const SubjectInfoScreen = ({ navigation, route }) => {
       <SafeAreaView style={Globalstyles.container}>
         <View style={styles.backbuttonview}>
           <Backbutton color="white" />
+          <Text style={styles.headingtxt}>{Subject}</Text>
         </View>
 
         {data?.loading === true ? (
           <LoadingScreen />
         ) : (
           <ScrollView style={Globalstyles.scrollcontainer}>
-            <Text style={styles.headingtxt}>{Subject}</Text>
             <Text style={styles.subheadingstxt}>Average:</Text>
             <View style={styles.averagehold}>
               <CircularProgress
@@ -45,7 +45,7 @@ const SubjectInfoScreen = ({ navigation, route }) => {
               />
             </View>
 
-            <Text style={styles.subheadingstxt}>Grades:</Text>
+            <Text style={styles.subheadingstxt2}>Grades:</Text>
 
             {data.data.length < 1 ? (
               <View style={styles.nogrades}>
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     fontFamily: "interbold",
     fontSize: 20,
     textAlign: "center",
+    color: "white",
   },
   backdrop: {
     backgroundColor: "#198508",
@@ -94,10 +95,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   subheadingstxt: {
-    marginTop: 15,
     fontSize: 16,
     marginBottom: 5,
     fontFamily: "interbold",
+  },
+
+  subheadingstxt2: {
+    fontSize: 16,
+    marginBottom: 5,
+    fontFamily: "interbold",
+    marginTop: 15,
   },
   txtlarge4: {
     fontSize: 12,
