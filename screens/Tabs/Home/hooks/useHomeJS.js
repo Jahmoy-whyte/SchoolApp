@@ -10,6 +10,8 @@ import {
   getDocs,
   doc,
   getDoc,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { db } from "../../../../FirebaseConfig";
 import {
@@ -27,6 +29,7 @@ const useHomeJS = () => {
   const [data, setdata] = useState({
     profileinfo: [],
     loading: true,
+    postdata: [],
   });
 
   // create account function with firebase
@@ -61,8 +64,8 @@ const useHomeJS = () => {
         parentname: arr[0].Parentname,
         parentemail: arr[0].Parentemail,
       }));
-
-      setdata((prev) => ({ ...prev, loading: false, profileinfo: arr }));
+      setdata((prev) => ({ ...prev, profileinfo: arr }));
+      FN_Getposts();
     } catch (error) {
       setdata((prev) => ({ ...prev, loading: false }));
       Alertshow("Error Getting Account Infomation");
@@ -98,6 +101,34 @@ const useHomeJS = () => {
       }
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const FN_Getposts = async () => {
+    try {
+      const q = query(
+        collection(db, "Posts"),
+        orderBy("Date", "desc"),
+        limit(3)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.size === 0) {
+        setdata((prev) => ({ ...prev, loading: false }));
+        Alertshow("Infomation Not Found");
+        return;
+      }
+      const arr = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        //console.log(doc.id, " => ", doc.data());
+        arr.push({ ...doc.data(), docid: doc.id });
+      });
+
+      setdata((prev) => ({ ...prev, loading: false, postdata: arr }));
+    } catch (error) {
+      setdata((prev) => ({ ...prev, loading: false }));
+      Alertshow("Error Getting Account Infomation");
     }
   };
 

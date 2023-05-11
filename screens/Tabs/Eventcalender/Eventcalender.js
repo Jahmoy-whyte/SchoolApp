@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Backbutton from "../../../components/Backbutton/Backbutton";
 import { Globalstyles } from "../../../assets/styles/Globalstyles";
-
+import { AntDesign } from "@expo/vector-icons";
 import { StatusBar as Expostatusbar } from "expo-status-bar";
 import { useRoute } from "@react-navigation/native";
 
@@ -19,17 +19,6 @@ const Eventcalender = () => {
   console.log(arr);
 
   const routehook = useRoute();
-
-  const Calendarviews = ({ num }) => {
-    return (
-      <View style={styles.calendarviewscontainer}>
-        <View style={styles.numbercontainer}>
-          <Text style={styles.numbertxt}>{num}</Text>
-        </View>
-        <Text style={styles.strtxt}>Mon</Text>
-      </View>
-    );
-  };
 
   return (
     <>
@@ -41,37 +30,29 @@ const Eventcalender = () => {
           <Backbutton color="white" />
           <Text style={styles.title}>Event Calendar</Text>
         </View>
-        <ScrollView style={Globalstyles.scrollcontainer}>
-          <Text style={styles.headingtxt}>Up And Comming Events:</Text>
-
+        <ScrollView style={styles.scrollcontainer}>
           <TouchableOpacity style={styles.eventcardcontainer}>
             <View style={styles.eventcard}>
-              <View style={styles.eventcardside}></View>
+              <AntDesign name="calendar" size={24} color="#B3B3B3" />
               <View style={styles.eventcardflex}>
-                <Text style={styles.eventcardtxt1}>Thursday 5</Text>
                 <Text style={styles.eventcardtxt2}>PTA Meeting</Text>
-                <Text style={styles.eventcardtxt2}>9:00am</Text>
+                <Text style={styles.eventcardtxt1}>Thursday 5</Text>
+
+                <Text style={styles.eventcardtxt1}>9:00am</Text>
               </View>
             </View>
-            <Image
-              style={styles.eventimg}
-              source={require("../../../assets/images/calendar.png")}
-            />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.eventcardcontainer}>
             <View style={styles.eventcard}>
-              <View style={styles.eventcardside}></View>
+              <AntDesign name="calendar" size={24} color="#B3B3B3" />
               <View style={styles.eventcardflex}>
-                <Text style={styles.eventcardtxt1}>Thursday 5</Text>
-                <Text style={styles.eventcardtxt2}>Career day</Text>
-                <Text style={styles.eventcardtxt2}>9:00am</Text>
+                <Text style={styles.eventcardtxt2}>Career Day</Text>
+                <Text style={styles.eventcardtxt1}>Thursday 10</Text>
+
+                <Text style={styles.eventcardtxt1}>9:00am</Text>
               </View>
             </View>
-            <Image
-              style={styles.eventimg}
-              source={require("../../../assets/images/calendar.png")}
-            />
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
@@ -80,6 +61,10 @@ const Eventcalender = () => {
 };
 
 const styles = StyleSheet.create({
+  scrollcontainer: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
   title: {
     fontFamily: "interbold",
     fontSize: 20,
@@ -109,20 +94,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 6,
 
-    borderWidth: 0.5,
-    borderColor: "#B3B3B3",
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#B3B3B3",
   },
   eventcardtxt1: {
     fontFamily: "interregular",
-    fontSize: 12,
+    fontSize: 14,
   },
   eventcardtxt2: {
     fontFamily: "interbold",
-    fontSize: 12,
+    fontSize: 14,
   },
   eventcardtxt2: {
     fontFamily: "interbold",
-    fontSize: 12,
+    fontSize: 14,
   },
   eventimg: {
     width: 80,
@@ -137,6 +122,7 @@ const styles = StyleSheet.create({
     gap: 10,
     flexDirection: "row",
     flex: 1,
+    alignItems: "center",
   },
   eventcardflex: {
     flex: 1,

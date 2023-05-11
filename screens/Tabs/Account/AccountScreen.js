@@ -9,34 +9,39 @@ import {
 } from "react-native";
 import { Globalstyles } from "../../../assets/styles/Globalstyles";
 import { StatusBar as Expostatusbar } from "expo-status-bar";
-import { AntDesign, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Feather,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Ionicons,
+} from "@expo/vector-icons";
 import Button from "../../../components/button/Button";
 import useAccountJS from "./hooks/useAccountJS";
+import { useIsFocused } from "@react-navigation/native";
 const AccountScreen = () => {
   const [FN_Logout, email, userinfo] = useAccountJS();
+  const isfocused = useIsFocused();
   return (
     <>
+      <Expostatusbar style={isfocused === true ? "dark" : "light"} />
       <SafeAreaView style={Globalstyles.container}>
         <View style={styles.headingview}>
           <Text style={styles.heading}>Account</Text>
         </View>
         <ScrollView style={Globalstyles.scrollcontainer}>
-          <View style={styles.accountinfocontainer}>
-            <View style={styles.accountinfoandinital}>
-              <Text style={styles.inital} allowFontScaling={false}>
-                {userinfo?.parentname.substring(0, 1)}
-              </Text>
-            </View>
+          <View style={styles.optioncontainer2}>
+            <AntDesign name="user" size={24} color="black" />
             <View style={styles.nameandemail}>
-              <Text style={Globalstyles.txtlarge3}>{userinfo?.parentname}</Text>
-              <Text style={Globalstyles.txtsmallgray1}>
+              <Text style={styles.optiontxt}>{userinfo?.parentname}</Text>
+              <Text style={Globalstyles.txtsmallgray2}>
                 {userinfo?.parentemail}
               </Text>
             </View>
           </View>
 
           <TouchableOpacity style={styles.optioncontainer}>
-            <AntDesign name="user" size={24} color="black" />
+            <Ionicons name="ios-settings-outline" size={24} color="black" />
             <Text style={styles.optiontxt}>My Account</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optioncontainer}>
@@ -44,7 +49,7 @@ const AccountScreen = () => {
             <Text style={styles.optiontxt}>Help</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optioncontainer}>
-            <MaterialCommunityIcons name="web" size={24} color="black" />
+            <MaterialIcons name="web-asset" size={24} color="black" />
             <Text style={styles.optiontxt}>Privacy Policy </Text>
           </TouchableOpacity>
 
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
   },
   headingview: {
     //  backgroundColor: "#198508",
-    paddingVertical: 15,
+    marginTop: 15,
   },
   heading: {
     // color: "white",
@@ -72,12 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
-  accountinfocontainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 15,
-  },
+
   accountinfoandinital: {
     justifyContent: "center",
     alignItems: "center",
@@ -95,12 +95,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     alignItems: "center",
-    paddingVertical: 20,
+    paddingVertical: 15,
     paddingHorizontal: 10,
     borderBottomColor: "#B3B3B3",
     borderBottomWidth: 0.5,
     marginBottom: 15,
   },
+
+  optioncontainer2: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+
+    //borderBottomColor: "#B3B3B3",
+    //  borderBottomWidth: 0.5,
+  },
+
   optiontxt: {
     fontFamily: "interbold",
     fontSize: 14,

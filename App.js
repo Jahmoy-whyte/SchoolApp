@@ -27,6 +27,9 @@ import NewsScreen from "./screens/Tabs/News/NewsScreen";
 import AttendanceScreen from "./screens/Tabs/Attendance/AttendanceSrceen";
 import NotificationScreen from "./screens/Tabs/Notification/NotificationScreen";
 import Eventcalender from "./screens/Tabs/Eventcalender/Eventcalender";
+import Posts from "./screens/Tabs/Posts/Posts";
+import Schoolinfo from "./screens/Tabs/Schoolinfo/Schoolinfo";
+import Startscreen from "./screens/Startscreen/Startscreen";
 export default function App() {
   const Stack = createNativeStackNavigator();
   const [login, setlogin] = useState();
@@ -84,13 +87,17 @@ export default function App() {
                       component={NotificationScreen}
                     />
                     <Stack.Screen name="calender" component={Eventcalender} />
+                    <Stack.Screen name="postinfo" component={Posts} />
+                    <Stack.Screen name="schoolinfo" component={Schoolinfo} />
                   </Stack.Group>
                 ) : login === "loggedout" ? (
                   <Stack.Group>
+                    <Stack.Screen name="oboarding1" component={Startscreen} />
                     <Stack.Screen
                       name="oboarding"
                       component={OnboardingScreen}
                     />
+
                     <Stack.Screen name="signup" component={SignupScreen} />
                     <Stack.Screen name="verify" component={VerifyemailScreen} />
                     <Stack.Screen name="login" component={LoginScreen} />

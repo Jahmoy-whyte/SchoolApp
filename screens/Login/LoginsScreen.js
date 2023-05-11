@@ -75,7 +75,7 @@ const LoginScreen = () => {
 
         <TouchableOpacity
           disabled={textbox.loading}
-          onPress={() => nav.goBack()}
+          onPress={() => nav.navigate("signup")}
         >
           <Text style={styles.noaccount}>
             Dont have an account? <Text style={styles.signuptxt}> SignUp</Text>

@@ -12,20 +12,20 @@ const useOnboardingJS = () => {
       id: "1",
       title: "Wellcome",
       subtitle: "Wellcome To The OHHS App.",
-      image: require("../../assets/images/wellcome.png"),
+      image: require("../../assets/images/img1.png"),
     },
     {
       id: "2",
       title: "Attendance And Grades",
       subtitle:
         "Easily Login And Check On You child's Grades and Attendance Updated Daily.",
-      image: require("../../assets/images/check.png"),
+      image: require("../../assets/images/img2.png"),
     },
     {
       id: "3",
       title: "Ready",
       subtitle: "Tap Get Started To Sign Up / Login.",
-      image: require("../../assets/images/ready.png"),
+      image: require("../../assets/images/img3.png"),
     },
   ];
 
@@ -35,14 +35,14 @@ const useOnboardingJS = () => {
   }).current;
 
   const NextFN = useCallback(() => {
-    if (index === 2) {
-      nav.navigate("signup");
-      return;
-    }
-    scroll?.current?.scrollToIndex({
-      animated: true,
-      index: index < 2 ? index + 1 : index,
-    });
+    // if (index === 2) {
+    nav.navigate("signup");
+    //  return;
+    //   }
+    // scroll?.current?.scrollToIndex({
+    //  animated: true,
+    //  index: index < 2 ? index + 1 : index,
+    // });
   }, [index]);
 
   return [windowWidth, scroll, data, scrolldata, NextFN, index, nav];

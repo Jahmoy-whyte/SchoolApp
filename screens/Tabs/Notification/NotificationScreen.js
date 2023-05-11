@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, SafeAreaView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+} from "react-native";
 import { Globalstyles } from "../../../assets/styles/Globalstyles";
 import Backbutton from "../../../components/Backbutton/Backbutton";
 import { useRoute } from "@react-navigation/native";
@@ -27,9 +34,12 @@ const NotificationScreen = () => {
             <Text style={styles.txt}>No Notifications Available</Text>
           </View>
         ) : (
-          noti.data.map((data) => {
-            return <Noticards data={data} nav={nav} key={data.docid} />;
-          })
+          <FlatList
+            data={noti.data}
+            renderItem={({ item }) => {
+              return <Noticards data={item} nav={nav} key={item.docid} />;
+            }}
+          />
         )}
       </SafeAreaView>
     </>

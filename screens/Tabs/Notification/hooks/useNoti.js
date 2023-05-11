@@ -41,8 +41,6 @@ const useNoti = () => {
   const storenotiData = async () => {
     if (notify.showbage === false) return;
 
-    console.log("wwwww");
-
     if (notify?.lastupdatednoti) {
       try {
         await AsyncStorage.setItem("@lastnoti", notify?.lastupdatednoti);

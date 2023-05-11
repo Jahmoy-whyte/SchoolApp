@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "blue",
     width: 20,
-    height: 10,
+    height: 5,
   },
   skipbtn: {
     marginTop: 15,

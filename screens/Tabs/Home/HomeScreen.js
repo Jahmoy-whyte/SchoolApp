@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  FlatList,
 } from "react-native";
 import { StatusBar as Expostatusbar } from "expo-status-bar";
 
@@ -22,6 +23,8 @@ import useHomeJS from "./hooks/useHomeJS";
 import Profile from "./components/Profile";
 import LoadingScreen from "../../Loading/LoadingScreen";
 import Articles from "./components/Articles";
+import Menu from "./components/Menu";
+
 //import Button from "../../../components/button/Button";
 //import { getAuth, signOut } from "firebase/auth";
 //import { FireAuth } from "../../../FirebaseConfig";
@@ -29,6 +32,7 @@ import useNotify from "../../../useNotify";
 import Notification from "./components/Notification";
 import useVerifyToken from "./hooks/useVerifyToken";
 import { useRoute } from "@react-navigation/native";
+import Postscards from "./components/Postscards";
 const HomeScreen = () => {
   const routehook = useRoute();
   const [tokenresponse, opensettings, register] = useNotify();
@@ -38,11 +42,17 @@ const HomeScreen = () => {
   const Heading = () => {
     return (
       <View style={styles.headercontainer}>
-        <View style={styles.nameandwellcome}>
-          <Text onPress={Copytoken} style={styles.nametxt}>
-            Hi {userinfo?.parentname}!
-          </Text>
-          <Text style={styles.wellcometxt}>Wellcome Back</Text>
+        <View style={styles.headingwrapper}>
+          <View style={styles.userview}>
+            <AntDesign name="user" size={20} color="white" />
+          </View>
+
+          <View style={styles.nameandwellcome}>
+            <Text onPress={Copytoken} style={styles.nametxt}>
+              Hi {userinfo?.parentname}!
+            </Text>
+            <Text style={styles.wellcometxt}>Wellcome Back</Text>
+          </View>
         </View>
         <TouchableOpacity onPress={() => nav.navigate("notifications")}>
           <View
@@ -58,64 +68,16 @@ const HomeScreen = () => {
               display: notify?.showbage === false ? "none" : null,
             }}
           ></View>
-          <Feather name="bell" size={20} color={"black"} />
+          <Feather name="bell" size={20} color={"white"} />
         </TouchableOpacity>
       </View>
     );
   };
 
-  const Newssct = () => {
-    return (
-      <TouchableOpacity
-        style={styles.newsmaincontainer}
-        onPress={() => nav.navigate("News")}
-      >
-        <View style={styles.imgcontainter}>
-          <Image
-            resizeMode="contain"
-            source={require("../../../assets/images/news2.png")}
-            style={styles.newsimg}
-          />
-        </View>
-
-        <View style={styles.test1}>
-          <TouchableOpacity
-            style={styles.newscontainer}
-            onPress={() => nav.navigate("News")}
-          >
-            <View style={styles.newstitleandtext}>
-              <FontAwesome name="newspaper-o" size={20} color="white" />
-              <Text style={styles.newstitle}>News</Text>
-            </View>
-            <MaterialIcons
-              name="keyboard-arrow-right"
-              size={24}
-              color="white"
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.eventcontainer}
-            onPress={() => nav.navigate("calender")}
-          >
-            <View style={styles.eventtxtandicon}>
-              <AntDesign name="calendar" size={20} color="white" />
-              <Text style={styles.eventtxt}>Events</Text>
-            </View>
-            <MaterialIcons
-              name="keyboard-arrow-right"
-              size={24}
-              color="white"
-            />
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <>
-      <Expostatusbar style={routehook.name === "Home" ? "dark" : "light"} />
+      <View style={styles.backdrop}></View>
+      <Expostatusbar style={routehook.name === "Home" ? "light" : "dark"} />
 
       <SafeAreaView style={Globalstyles.container}>
         <Heading />
@@ -125,31 +87,24 @@ const HomeScreen = () => {
         ) : data.loading === true ? (
           <LoadingScreen />
         ) : (
-          <ScrollView style={styles.scrollcontainer}>
-            <Newssct />
-
-            <Text style={styles.mainheadings}>Profile</Text>
-
-            <View style={styles.profileinfoview}>
-              {data.profileinfo?.map((data) => {
-                return <Profile data={data} key={data.docid} nav={nav} />;
-              })}
-            </View>
-
-            <Text style={styles.mainheadings}>Articles</Text>
-
-            <View style={styles.Articlesview}>
-              <Articles />
-              <Articles />
-            </View>
-            <Articles WIDTH={WIDTH} />
-          </ScrollView>
+          <>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              style={styles.scrollcontainer}
+              ListHeaderComponent={<Menu data={data} nav={nav} />}
+              data={data.postdata}
+              renderItem={({ item }) => {
+                return <Postscards postdata={item} nav={nav} />;
+              }}
+            />
+          </>
         )}
       </SafeAreaView>
     </>
   );
 };
 const styles = StyleSheet.create({
+  ///================================ toppart
   test1: {
     flexDirection: "row",
     flex: 1,
@@ -189,18 +144,33 @@ const styles = StyleSheet.create({
   },
 
   headercontainer: {
+    backgroundColor: "#198508",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingVertical: 15,
   },
-
+  headingwrapper: {
+    display: "flex",
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+    gap: 10,
+  },
+  userview: {
+    width: 40,
+    height: 40,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   scrollcontainer: {
     flex: 1,
-    paddingHorizontal: 10,
 
-    backgroundColor: "white",
+    backgroundColor: "#F4F4F4",
   },
   nameandwellcome: {
     flex: 1,
@@ -208,10 +178,12 @@ const styles = StyleSheet.create({
   nametxt: {
     fontFamily: "interbold",
     fontSize: 20,
+    color: "white",
   },
   wellcometxt: {
     fontFamily: "interregular",
     fontSize: 12,
+    color: "white",
   },
   datetxt: {
     fontFamily: "interregular",

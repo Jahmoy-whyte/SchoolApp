@@ -32,8 +32,9 @@ const Subjectview = ({ data, nav }) => {
     >
       <View style={styles.topinfo}>
         <View style={styles.container}>
+          <MaterialIcons name="bookmark-outline" size={24} color="#B3B3B3" />
           <View style={styles}>
-            <Text style={Globalstyles.txtlarge3}>{data.Subject}</Text>
+            <Text style={Globalstyles.txtlarge4}>{data.Subject}</Text>
             <View style={styles.daysstyle}>
               {data.Days.map((day, index) => {
                 return (
@@ -47,30 +48,6 @@ const Subjectview = ({ data, nav }) => {
         </View>
         <MaterialIcons name="keyboard-arrow-right" size={34} color="#198508" />
       </View>
-
-      <TouchableOpacity
-        style={styles.smallcardcontainer}
-        onPress={() =>
-          nav.navigate("subject", {
-            studentid: data.studentid,
-            Subject: data.Subject,
-            docid: data.docid,
-            TeacherDocid: data.TeacherDocid,
-          })
-        }
-      >
-        <View style={styles.iconhold}>
-          <Feather name="percent" size={15} color="white" />
-        </View>
-        <Text style={styles.smallcardtxt}>Grades & Attendance</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.smallcardcontainer}>
-        <View style={styles.iconhold}>
-          <Feather name="book" size={15} color="white" />
-        </View>
-        <Text style={styles.smallcardtxt}>HomeWork</Text>
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
@@ -86,6 +63,7 @@ const styles = StyleSheet.create({
     borderColor: "#B3B3B3",
     marginTop: 15,
     alignItems: "center",
+    flex: 1,
   },
   iconhold: {
     borderRadius: 6,
@@ -95,6 +73,7 @@ const styles = StyleSheet.create({
   smallcardtxt: {
     fontFamily: "interregular",
     fontSize: 12,
+    flex: 1,
   },
   //==================
   topinfo: {
@@ -105,9 +84,8 @@ const styles = StyleSheet.create({
 
   //===================================================
   maincontainer: {
-    borderRadius: 6,
-    borderWidth: 0.5,
-    borderColor: "#B3B3B3",
+    // borderBottomWidth: 0.5,
+    // borderBottomColor: "#B3B3B3",
     flexDirection: "column",
 
     paddingHorizontal: 15,
@@ -133,6 +111,11 @@ const styles = StyleSheet.create({
   daysstyle: {
     flexDirection: "row",
     gap: 5,
+  },
+
+  homeworkandgrades: {
+    flexDirection: "row",
+    gap: 10,
   },
 });
 export default memo(Subjectview);
